@@ -5,6 +5,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait as DriverWait
 from selenium.webdriver.support import expected_conditions as Condition
 
+from config import config
+
 
 # TODO create a docstring and add the following info:
 # * extracts the tuple to the inputs
@@ -51,7 +53,8 @@ class LoginPage:
     # TODO treat exceptions
     # TODO change wait accordinly with the page avg page load
     def is_authenticated(self) -> bool:
-        wait = DriverWait(self.driver, 8)
+
+        wait = DriverWait(self.driver, config.EXPLICIT_WAIT)
         web_element = wait.until(
             Condition.visibility_of_element_located(LoginPage.INVOICE_PAGE_SELECTORS)
         )
@@ -64,7 +67,7 @@ class LoginPage:
     # TODO treat exceptions
     # TODO change wait accordinly with the page avg page load
     def is_not_authenticated(self) -> bool:
-        wait = DriverWait(self.driver, 8)
+        wait = DriverWait(self.driver, config.EXPLICIT_WAIT)
         web_element = wait.until(
             Condition.visibility_of_element_located(LoginPage.ERROR_MESSAGE_SELECTORS)
         )

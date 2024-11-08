@@ -12,7 +12,7 @@ def driver():
     Yields:
         selenium.webdriver: driver to the select browser by config.py
     """
-    driver = config.get_webdriver()
+    driver = config.my_webdriver()
     yield driver
     driver.quit()
 

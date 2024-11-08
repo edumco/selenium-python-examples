@@ -1,68 +1,66 @@
+from enum import Enum
+from selenium import webdriver
+
+import os
 import distro
 import platform
-
-from enum import Enum
-from importlib.metadata import distribution
 import installed_browsers
-
 import shutil
 
-from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
+EXPLICIT_WAIT = 15
 
 
-def browser_path(browser_name: str):
-    return shutil.which(browser_name)
+def chrome_binary():
+    if distro.name().lower() == "ubuntu":
+        return "/snap/bin/chromium"
+    else:
+        return shutil.which("google-chrome")
 
 
-# Helps the code readability and can be expanded if needed
-class MyConfiguration(Enum):
-    CHROME_ON_LINUX = 1
-    CHROME_ON_LINUX_SNAP = 2
-    CHROME_ON_WINDOWS = 3
-    FIREFOX_ON_LINUX = 4
-    FIREFOX_ON_LINUX_SNAP = 5
-    FIREFOX_ON_WINDOWS = 6
+def firefox_binary():
+    if distro.name().lower() == "ubuntu":
+        return "/snap/firefox/current/usr/lib/firefox/firefox"
+    else:
+        return shutil.which("firefox")
 
 
-def get_my_configuration():
+def get_driver_path(browser: str, os_type: str):
 
-    my_system = platform.system().lower()
-    my_distro = distro.name().lower()
+    if browser == "chrome":
+        driver_name = "chromedriver"
+    elif browser == "firefox":
+        driver_name = "geckodriver"
+    elif browser == "edge":
+        driver_name = "msedgedriver"
+    else:
+        raise ValueError("Browser not supported")
+
+    if os_type == "windows":
+        driver_name += ".exe"
+
+    if os_type == "darwin":
+        os_type = "mac_arm"
+
+    base_driver_path = os.path.join(os.path.dirname(__file__), "..", "drivers")
+
+    return os.path.join(base_driver_path, os_type, browser, driver_name)
+
+
+# TODO Add edge
+def my_webdriver():
+
     my_browser = installed_browsers.what_is_the_default_browser().lower()
 
-    if my_system == "windows" and my_browser == "firefox":
-        return MyConfiguration.FIREFOX_ON_WINDOWS
-
-    if my_system == "windows" and my_browser == "chrome":
-        return MyConfiguration.CHROME_ON_WINDOWS
-
-    if my_system == "linux" and my_distro == "ubuntu" and my_browser == "firefox":
-        return MyConfiguration.FIREFOX_ON_LINUX_SNAP
-
-    if my_system == "linux" and my_distro == "ubuntu" and my_browser == "chrome":
-        return MyConfiguration.CHROME_ON_LINUX_SNAP
-
-    if my_system == "linux" and my_browser == "firefox":
-        return MyConfiguration.FIREFOX_ON_LINUX
-
-    if my_system == "linux" and my_browser == "chrome":
-        return MyConfiguration.CHROME_ON_LINUX
-
-
-def get_webdriver():
-
-    my_configuration = get_my_configuration()
-
-    # TODO ADD all the configurations
-    if my_configuration == MyConfiguration.FIREFOX_ON_LINUX_SNAP:
-
+    if my_browser == "firefox":
         firefox_options = webdriver.FirefoxOptions()
-        firefox_options.binary_location = (
-            "/snap/firefox/current/usr/lib/firefox/firefox"
-        )
-        firefox_options.add_argument("--headless")
-
+        firefox_options.binary_location = firefox_binary()
         driver = webdriver.Firefox(options=firefox_options)
+        driver.maximize_window()
+        return driver
+
+    elif my_browser == "chrome":
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.binary_location = chrome_binary()
+        driver = webdriver.Chrome(options=chrome_options)
         driver.maximize_window()
         return driver
