@@ -3,10 +3,13 @@ from selenium import webdriver
 from pages.login_page import LoginPage
 
 
-# TODO read valid user from config
-def test_tc001_login_positive(driver):
+@pytest.mark.parametrize(
+    "username, password",
+    [("demouser", "abc123")],
+)
+def test_tc001_login_positive(driver, username, password):
     login_page = LoginPage(driver)
-    login_page.login(username="demouser", password="abc123")
+    login_page.login(username, password)
     assert login_page.is_authenticated(), "Could not authenticate"
 
 
