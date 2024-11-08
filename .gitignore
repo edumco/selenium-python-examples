@@ -1,3 +1,6 @@
+#Ignore reports
+report.html
+
 # Ignore Visual Studio Code folder
 .vscode/*
 
