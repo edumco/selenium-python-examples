@@ -7,11 +7,11 @@ Some examples of web testing automation using Selenium with Python.
 This repo contains a complete structure to create a test suit for functional test cases for a web page.
 
 It contains examples of:
-    - Finding and interact with elements using its id, name, CSS selector, tag name, XPATH ...
-    - How to get the contents of an element and parse it into lists
-    - Test parametrization (to reuse tests with different inputs)
-    - How to use test fixtures to simplefy configuration
-    - Automatic configuration based on suytem information
+- Finding and interact with elements using its id, name, CSS selector, tag name, XPATH ...
+- How to get the contents of an element and parse it into lists
+- Test parametrization (to reuse tests with different inputs)
+- How to use test fixtures to simplefy configuration
+- Automatic configuration based on suytem information
 
 ## Before you start
 
@@ -19,15 +19,15 @@ Before you start, you NEED to know 3 informations:
 
 __Your operational system__: It's the software that you use to run your applications! This software works on:
 
-    1. Windows = The most common, almost everybody uses
-    2. MacOs = Comes only with computers from Apple
-    3. Linux = A free and secure alternative
+1. Windows = The most common, almost everybody uses
+2. MacOs = Comes only with computers from Apple
+3. Linux = A free and secure alternative
 
 __Your browser__: That little window you use to view websites. This software works with:
 
-    1. Google Chrome (and Chromium on linux)
-    2. Microsof Edge (that is very similar to Chrome)
-    2. Firefox (a diferent engine)
+1. Google Chrome (and Chromium on linux)
+2. Microsof Edge (that is very similar to Chrome)
+3. Firefox (a diferent engine)
 
 __If you have Python on your machine__: It can be download for free but you gonna need administrative permitions to install.
 
@@ -44,7 +44,7 @@ __If you have Python on your machine__: It can be download for free but you gonn
 
 - Chrome: [Install](https://www.google.com/chrome/) or [update](https://support.google.com/chrome/answer/95414?hl=EN&co=GENIE.Platform%3DDesktop)
 - Edge: [Install](https://www.microsoft.com/en-us/edge/download?form=MA13FJ) or [update](https://support.microsoft.com/en-us/topic/microsoft-edge-update-settings-af8aaca2-1b69-4870-94fe-18822dbb7ef1)
-- Firefox: - [Install](https://www.mozilla.org/en-US/firefox/new/) or [update](https://support.mozilla.org/en-US/kb/update-firefox-latest-release)
+- Firefox: [Install](https://www.mozilla.org/en-US/firefox/new/) or [update](https://support.mozilla.org/en-US/kb/update-firefox-latest-release)
 
 #### 3. Download and uncompress this project on your machine
 
@@ -58,25 +58,30 @@ If it does not open try calling [via terminal](https://www.lifewire.com/open-com
 
 Heres a simple overview from this source code:
 
+```
 selenium-python-examples/
 ├── config/
 ├── drivers/
 ├── pages/
 ├── tests/
 └ ...
+```
 
 The most important file is the config.py
+```
 ├── config/
 │   ├── config.py
+```
 
 It keeps all the configurations together so you dont need to search the entire project when something changes
 
 On the `drivers` folder are located the files Selenium necessary to comunicate with the browser
 
 Another very important file is the conftest.py
+```
 ├── tests/
 │   ├── conftest.py
-
+```
 It provides the fixtures so the test resources can be easily initialized and released
 
 On the `pages` folder you get the page object pattern implemented by representing each website with a different class
