@@ -53,7 +53,6 @@ def get_my_configuration():
 def get_webdriver():
 
     my_configuration = get_my_configuration()
-    print(my_configuration)
 
     # TODO ADD all the configurations
     if my_configuration == MyConfiguration.FIREFOX_ON_LINUX_SNAP:
