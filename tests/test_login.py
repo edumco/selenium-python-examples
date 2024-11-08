@@ -3,14 +3,14 @@ from selenium import webdriver
 from pages.login_page import LoginPage
 
 
+# TODO read valid user from config
 def test_tc001_login_positive(driver):
     login_page = LoginPage(driver)
     login_page.login(username="demouser", password="abc123")
     assert login_page.is_authenticated(), "Could not authenticate"
 
-    # ("demouser", "abc123"),  # should fail
 
-
+# TODO read invalid users from config or generate random combinations
 @pytest.mark.parametrize(
     "username, password",
     [

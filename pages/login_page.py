@@ -1,4 +1,3 @@
-from ast import Tuple
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
@@ -47,6 +46,7 @@ class LoginPage:
         self.enter_username(username)
         self.enter_password(password)
         self.confirm_form()
+        return self
 
     # TODO treat exceptions
     # TODO change wait accordinly with the page avg page load
