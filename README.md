@@ -54,12 +54,40 @@ After uncompress navigate to the main folder and click on one of the runners: `r
 
 If it does not open try calling [via terminal](https://www.lifewire.com/open-command-prompt-in-folder-8681085) or [change the file permitions](https://support.apple.com/guide/mac-help/change-permissions-for-files-folders-or-disks-mchlp1203/mac)
 
-## Structure
+## Project overview
 
-- config
-- tests
-- tests/pages
-- reports
+Heres a simple overview from this source code:
+
+selenium-python-examples/
+├── config/
+├── drivers/
+├── pages/
+├── tests/
+└ ...
+
+The most important file is the config.py
+├── config/
+│   ├── config.py
+
+It keeps all the configurations together so you dont need to search the entire project when something changes
+
+On the `drivers` folder are located the files Selenium necessary to comunicate with the browser
+
+Another very important file is the conftest.py
+├── tests/
+│   ├── conftest.py
+
+It provides the fixtures so the test resources can be easily initialized and released
+
+On the `pages` folder you get the page object pattern implemented by representing each website with a different class
+
+And finally on the `tests` folder you find the actual tests that glue together all the parts:
+
+1. Use the configurations from config.py
+2. Receive resources from the fixtures
+3. Use the methods form the page objects
+
+Hope you enjoy!
 
 ## License
 
