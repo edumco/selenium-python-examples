@@ -62,8 +62,8 @@ def get_webdriver():
         firefox_options.binary_location = (
             "/snap/firefox/current/usr/lib/firefox/firefox"
         )
-        # Other options can be added here
-        return webdriver.Firefox(options=firefox_options)
+        firefox_options.add_argument("--headless")
 
-
-get_webdriver()
+        driver = webdriver.Firefox(options=firefox_options)
+        driver.maximize_window()
+        return driver
