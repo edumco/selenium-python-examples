@@ -20,6 +20,7 @@ class LoginPage:
     USERNAME_SELECTORS = (By.NAME, "username")
     PASSWORD_SELECTORS = (By.NAME, "password")
     LOGIN_BUTTON_SELECTORS = (By.ID, "btnLogin")
+    ERROR_MESSAGE_SELECTORS = (By.CSS_SELECTOR, ".alert")
     INVOICE_PAGE_SELECTORS = (By.PARTIAL_LINK_TEXT, "Invoice")
 
     def __init__(self, webdriver: webdriver):
@@ -47,12 +48,27 @@ class LoginPage:
         self.enter_password(password)
         self.confirm_form()
 
+    # TODO treat exceptions
+    # TODO change wait accordinly with the page avg page load
     def is_authenticated(self) -> bool:
-        wait = DriverWait(self.driver, 10)
+        wait = DriverWait(self.driver, 8)
         web_element = wait.until(
             Condition.visibility_of_element_located(LoginPage.INVOICE_PAGE_SELECTORS)
         )
         if web_element.text.__contains__("Invoice"):
+            return True
+        else:
+            return False
+
+    # This inversion makes it run faster on slow networks
+    # TODO treat exceptions
+    # TODO change wait accordinly with the page avg page load
+    def is_not_authenticated(self) -> bool:
+        wait = DriverWait(self.driver, 8)
+        web_element = wait.until(
+            Condition.visibility_of_element_located(LoginPage.ERROR_MESSAGE_SELECTORS)
+        )
+        if web_element.text.__contains__("Wrong"):
             return True
         else:
             return False
