@@ -13,7 +13,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Run tests
-python pytest --html=report.html
+python3 -m pytest --html=report.html
 
 # Prevent terminal from close 
 echo "Press any key to close ..."
