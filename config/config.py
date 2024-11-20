@@ -1,5 +1,6 @@
 from enum import Enum
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 import os
 import distro
@@ -12,7 +13,7 @@ EXPLICIT_WAIT = 15
 
 def chrome_binary():
     if distro.name().lower() == "ubuntu":
-        return "/snap/bin/chromium"
+        return "/snap/bin/google-chrome"
     else:
         return shutil.which("google-chrome")
 
@@ -26,11 +27,11 @@ def firefox_binary():
 
 def get_driver_path(browser: str, os_type: str):
 
-    if browser == "chrome":
+    if browser == "google-chrome":
         driver_name = "chromedriver"
     elif browser == "firefox":
         driver_name = "geckodriver"
-    elif browser == "edge":
+    elif browser == "microsoft-edge":
         driver_name = "msedgedriver"
     else:
         raise ValueError("Browser not supported")
@@ -46,10 +47,13 @@ def get_driver_path(browser: str, os_type: str):
     return os.path.join(base_driver_path, os_type, browser, driver_name)
 
 
-# TODO Add edge
 def my_webdriver():
 
-    my_browser = installed_browsers.what_is_the_default_browser().lower()
+    my_browser = (
+        installed_browsers.what_is_the_default_browser().lower().replace(" ", "-")
+    )
+
+    my_os = platform.system().lower()
 
     if my_browser == "firefox":
         firefox_options = webdriver.FirefoxOptions()
@@ -58,9 +62,24 @@ def my_webdriver():
         driver.maximize_window()
         return driver
 
-    elif my_browser == "chrome":
+    elif my_browser == "google-chrome":
+
+        chrome_binary_path = shutil.which("google-chrome")
+        os.environ["PATH"] += os.pathsep + chrome_binary_path
+
         chrome_options = webdriver.ChromeOptions()
-        chrome_options.binary_location = chrome_binary()
-        driver = webdriver.Chrome(options=chrome_options)
+        chrome_options.binary_location = chrome_binary_path
+
+        driver_path = get_driver_path(my_browser, my_os)
+        service = ChromeService(executable_path=driver_path)
+
+        driver = webdriver.Chrome(options=chrome_options, service=service)
+        driver.maximize_window()
+        return driver
+
+    elif my_browser == "microsoft-edge":
+        edge_options = webdriver.EdgeOptions()
+        edge_options.binary_location = shutil.which("microsoft-edge")
+        driver = webdriver.Chrome(options=edge_options)
         driver.maximize_window()
         return driver
