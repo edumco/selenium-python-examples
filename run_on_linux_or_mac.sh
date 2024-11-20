@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Adds drivers to PATH
-export PATH=$PATH:$(pwd)/drivers/linux/chrome/chromedriver:$(pwd)/drivers/linux/firefox/geckodriver:$(pwd)/drivers/linux/edge/msedgedriver
-
 # creates virtual env
 python3 -m venv venv
 
