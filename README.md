@@ -73,6 +73,25 @@ These files will:
 
 ## Project overview
 
+The project works by executing the following actions:
+
+1. Discover all the tests using the `pytest` library classes and naming conventions
+1. Then it uses the `fixtures` on `pytest` to create a lifecicle of tests:
+    1. Preparation (before each test):
+        1. Selects the apropriate webdriver accordinly with the default browser
+        1. Export its location to the `PATH` variable
+        1. Using the webdriver protocol creates a new instance of the default browser
+        1. Return the instance to the a test
+    1. Execution (During the test):
+        1. The functions marked as tests receives the webdriver instance
+        1. Access and Manipulate websites using the `PageObject` pattern classes
+        1. Theese classes use `selenium` to select elements on the we page
+        1. The selected `web elements` can be manipulated simulating the user actions
+        1. The results are validated using Python's `assertions`
+    1. Clean up (after each test)
+        1. All the data created during the test is discarted so the other tests can't be contaminated by its state
+        1. Results are collect by `pytest` and are shown on the terminal and on a HTML report!
+
 Heres a simple overview from this source code:
 
 ```
@@ -91,7 +110,7 @@ The most important file is the config.py
 │   ├── config.py
 ```
 
-It keeps all the configurations together so you dont need to search the entire project when something changes
+It keeps all the configurations together so you dont need to search the entire project when something changes.
 
 On the `drivers` folder are located the files Selenium necessary to comunicate with the browser
 
